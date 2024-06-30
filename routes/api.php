@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,8 +15,29 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+
+
+// Public routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
-Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
-Route::post('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
+
+// Authenticated routes
+Route::middleware('auth:api')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
+    Route::post('/me', [AuthController::class, 'me'])->name('me');
+
+    // Routes for superadmin role
+    Route::middleware('role:superadmin')->group(function () {
+        Route::get('/superadmin', function () {
+            return "Hello Superadmin";
+        });
+    });
+
+    // Routes for employee role
+    Route::middleware('role:employee')->group(function () {
+        Route::get('/employee', function () {
+            return "hello Employee";
+        });
+    });
+});

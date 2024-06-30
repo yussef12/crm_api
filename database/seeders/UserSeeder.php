@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             'name' => 'yossef amead',
             'email' => 'admin@tingis.com',
             'password' => Hash::make('password'),
+            'role_id'=>1
         ]);
 
 
@@ -25,6 +26,7 @@ class UserSeeder extends Seeder
             'name' => 'ereen yeager',
             'email' => 'employee@tingis.com',
             'password' => Hash::make('password'),
+            'role_id'=>2
         ]);
 
     }

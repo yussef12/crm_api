@@ -6,7 +6,9 @@ services:
             - "8000:8000"
         restart: always
         volumes:
-            - ./:/app
+            - '.:/app'
+        working_dir: /app   # Set the working directory explicitly
+        command: bash -c "composer install && php artisan serve --host=0.0.0.0 --port=8000"
         depends_on:
             - mysql
         environment:
