@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,20 +18,27 @@ use App\Http\Controllers\CompanyController;
 */
 
 
-
 // Public routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-// Authenticated routes
 Route::middleware('auth:api')->group(function () {
+
+    // Authenticated routes
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::post('/me', [AuthController::class, 'me'])->name('me');
 
     // Routes for superadmin role
     Route::middleware('role:superadmin')->group(function () {
+
         Route::apiResource('companies', CompanyController::class);
+
+       // Routes for users
+        Route::prefix('users')->group(function () {
+            Route::post('create-superadmin', [UserController::class, 'createSuperAdmin'])->name('user.create-superadmin');
+        });
+
 
     });
 

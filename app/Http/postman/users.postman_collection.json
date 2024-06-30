@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "522835f8-e997-4cf3-9055-739b6d9820f6",
+		"name": "users",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18669398",
+		"_collection_link": "https://bold-equinox-695543.postman.co/workspace/crm_api~bcdf7bf4-1bd8-47b9-81f0-c7ccf0f2c272/collection/18669398-522835f8-e997-4cf3-9055-739b6d9820f6?action=share&source=collection_link&creator=18669398"
+	},
+	"item": [
+		{
+			"name": "create superadmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"name\": \"ereen yeager\",\r\n        \"email\": \"ereen@tingis.com\",\r\n        \"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/create-superadmin",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"create-superadmin"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzE5NzkxMzI0LCJleHAiOjE3MTk3OTQ5MjQsIm5iZiI6MTcxOTc5MTMyNCwianRpIjoiTVNhaWhmaXMxZEJ6azFtOCIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.YUZ-TLw73di5A5Y14ryMs-OpAnweQZUJ_RE6yPbLi-o",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
