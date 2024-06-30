@@ -26,7 +26,8 @@ class UserSeeder extends Seeder
             'name' => 'ereen yeager',
             'email' => 'employee@tingis.com',
             'password' => Hash::make('password'),
-            'role_id'=>2
+            'role_id'=>2,
+            'company_id'=>4
         ]);
 
     }

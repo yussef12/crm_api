@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\CompanyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,9 +29,8 @@ Route::middleware('auth:api')->group(function () {
 
     // Routes for superadmin role
     Route::middleware('role:superadmin')->group(function () {
-        Route::get('/superadmin', function () {
-            return "Hello Superadmin";
-        });
+        Route::apiResource('companies', CompanyController::class);
+
     });
 
     // Routes for employee role
