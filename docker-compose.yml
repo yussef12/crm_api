@@ -6,7 +6,9 @@ services:
             - "8000:8000"
         restart: always
         volumes:
-            - ./:/app
+            - '.:/app'
+        working_dir: /app   # Set the working directory explicitly
+        command: bash -c "composer install && php artisan serve --host=0.0.0.0 --port=8000"
         depends_on:
             - mysql
         environment:
@@ -15,7 +17,7 @@ services:
             - DB_PORT=3306
             - DB_DATABASE=crm
             - DB_USERNAME=root
-            - DB_PASSWORD=password
+            - DB_PASSWORD=
 
     mysql:
         image: mysql:8.3
@@ -23,10 +25,8 @@ services:
         ports:
             - "3306:3306"
         environment:
-            MYSQL_ROOT_PASSWORD: root@@
             MYSQL_DATABASE: crm
-            MYSQL_USER: youssef
-            MYSQL_PASSWORD: password
+            MYSQL_ALLOW_EMPTY_PASSWORD: true
         volumes:
             - mysql_data:/var/lib/mysql
 
@@ -37,7 +37,6 @@ services:
             - "8080:80"
         environment:
             PMA_HOST: mysql
-            MYSQL_ROOT_PASSWORD: root@@
         depends_on:
             - mysql
 
