@@ -46,6 +46,20 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
+    public function scopeEmployees($query, $name = null, $sort=null)
+    {
+        $query->where('role_id', 1);
+        if ($sort) {
+            $query->orderBy($sort);
+        }
+        if ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+
+        return $query;
+    }
+
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -70,8 +84,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Company::class);
     }
+
     public function invitations()
     {
-        return $this->hasMany(JoinInvitation::class,'user_id');
+        return $this->hasMany(JoinInvitation::class, 'user_id');
     }
 }
