@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "283ff129-acaf-41f5-8e1e-827f4e2933dc",
+		"_postman_id": "c60e97a5-0bd5-42f7-a568-54db1d1f858b",
 		"name": "companies",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18669398",
-		"_collection_link": "https://bold-equinox-695543.postman.co/workspace/crm_api~bcdf7bf4-1bd8-47b9-81f0-c7ccf0f2c272/collection/18669398-283ff129-acaf-41f5-8e1e-827f4e2933dc?action=share&source=collection_link&creator=18669398"
+		"_exporter_id": "36309490"
 	},
 	"item": [
 		{
@@ -13,12 +12,22 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{url}}/companies",
+					"raw": "{{url}}/companies?name=Abernathy&sort=name",
 					"host": [
 						"{{url}}"
 					],
 					"path": [
 						"companies"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Abernathy"
+						},
+						{
+							"key": "sort",
+							"value": "name"
+						}
 					]
 				}
 			},

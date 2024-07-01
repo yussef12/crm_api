@@ -67,7 +67,7 @@ class UserController extends Controller
 // Ensure exactly 20 characters by adjusting parts
         $token = substr($now . $domainPart, 0, 20);
 
-        $joinInvitation=JoinInvitation::create([
+        $joinInvitation = JoinInvitation::create([
             'invited_email' => $email,
             'app_url' => $app_url,
             'token' => $token,
@@ -81,5 +81,16 @@ class UserController extends Controller
             'message' => 'invitation sent successfully',
             'token' => $token
         ]);
+    }
+
+
+    public function getEmployees(Request $request)
+    {
+        $name = $request->input('name');
+        $sortDirection = $request->input('sort', 'asc');
+
+        $employees = User::employees($name, $sortDirection)->get();
+
+        return response()->json(['employees' => $employees]);
     }
 }

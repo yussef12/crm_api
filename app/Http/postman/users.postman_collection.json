@@ -59,6 +59,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/employees?name=y&sort=name",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"employees"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "y"
+						},
+						{
+							"key": "sort",
+							"value": "name"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {

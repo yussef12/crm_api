@@ -8,9 +8,27 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Company::all();
+        $query = Company::query();
+
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->has('sort')) {
+            $sortField = $request->input('sort');
+            if ($sortField === 'name') {
+                $query->orderBy('name');
+            } elseif ($sortField === '-name') {
+                $query->orderByDesc('name');
+            }
+        }
+
+
+        $companies = $query->get();
+
+        return response()->json($companies);
     }
 
     public function store(Request $request)
