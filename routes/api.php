@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,12 +35,23 @@ Route::middleware('auth:api')->group(function () {
 
         Route::apiResource('companies', CompanyController::class);
 
-       // Routes for users
+        // Routes for users
         Route::prefix('users')->group(function () {
             Route::post('create-superadmin', [UserController::class, 'createSuperAdmin'])->name('user.create-superadmin');
+            Route::post('invite-employee', [UserController::class, 'inviteEmployee'])->name('user.invite-employee');
+
+            Route::get('send-mail', function () {
+                try {
+                    Mail::to('recipient@example.com')->send(new \App\Mail\TestMail());
+                    return 'Email sent!';
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error('Mailjet Error: ' . $e->getMessage());
+                    return 'Failed to send email: ' . $e->getMessage();
+                }
+
+
+            });
         });
-
-
     });
 
     // Routes for employee role

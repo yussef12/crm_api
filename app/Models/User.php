@@ -70,4 +70,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Company::class);
     }
+    public function invitations()
+    {
+        return $this->hasMany(JoinInvitation::class,'user_id');
+    }
 }
