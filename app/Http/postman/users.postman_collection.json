@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "522835f8-e997-4cf3-9055-739b6d9820f6",
+		"_postman_id": "66c4c0ad-b108-4396-92d1-74f8576f0852",
 		"name": "users",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18669398",
-		"_collection_link": "https://bold-equinox-695543.postman.co/workspace/crm_api~bcdf7bf4-1bd8-47b9-81f0-c7ccf0f2c272/collection/18669398-522835f8-e997-4cf3-9055-739b6d9820f6?action=share&source=collection_link&creator=18669398"
+		"_exporter_id": "36309490"
 	},
 	"item": [
 		{
@@ -33,6 +32,33 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "invite-employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"invited_email\":\"drtrss@ackerman.com\",\r\n    \"app_url\":\"https://www.ddddd.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/invite-employee",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"invite-employee"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -40,7 +66,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzE5NzkxMzI0LCJleHAiOjE3MTk3OTQ5MjQsIm5iZiI6MTcxOTc5MTMyNCwianRpIjoiTVNhaWhmaXMxZEJ6azFtOCIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.YUZ-TLw73di5A5Y14ryMs-OpAnweQZUJ_RE6yPbLi-o",
+				"value": "{{token}}",
 				"type": "string"
 			}
 		]
