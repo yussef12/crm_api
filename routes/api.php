@@ -21,6 +21,7 @@ use App\Http\Controllers\JoinInvitationController;
 // Public routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/validate-employee-creation', [UserController::class, 'validateEmployeeCreation'])->name('user.validate-employee-creation');
 
 Route::middleware('auth:api')->group(function () {
 
@@ -52,10 +53,6 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('role:employee')->group(function () {
         Route::prefix('users')->group(function () {
             Route::get('company-employees', [UserController::class, 'getCompanyEmployees'])->name('user.company-employees');
-            Route::post('create-superadmin', [UserController::class, 'createSuperAdmin'])->name('user.create-superadmin');
-            Route::post('invite-employee', [UserController::class, 'inviteEmployee'])->name('user.invite-employee');
-
-
         });
     });
 });

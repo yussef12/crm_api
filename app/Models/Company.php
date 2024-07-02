@@ -17,4 +17,9 @@ class Company extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function invitations()
+    {
+        return $this->hasMany(JoinInvitation::class,'company_id');
+    }
 }
