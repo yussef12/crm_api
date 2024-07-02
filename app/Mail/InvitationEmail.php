@@ -18,9 +18,10 @@ class InvitationEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($register_link)
+    public function __construct($register_link, $name)
     {
         $this->register_link = $register_link;
+        $this->name = $name;
     }
 
     /**
@@ -39,7 +40,7 @@ class InvitationEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.invitation', with:['register_link' => $this->register_link]
+            view: 'emails.invitation', with: ['register_link' => $this->register_link, 'name' => $this->name]
         );
     }
 
