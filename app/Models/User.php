@@ -46,9 +46,9 @@ class User extends Authenticatable implements JWTSubject
         'password' => 'hashed',
     ];
 
-    public function scopeEmployees($query, $name = null, $sort=null)
+    public function scopeEmployees($query, $name = null, $sort = null, $company_id = null)
     {
-        $query->where('role_id', 1);
+        $query->where('role_id', 2);
         if ($sort) {
             $query->orderBy($sort);
         }

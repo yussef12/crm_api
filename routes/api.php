@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\JoinInvitationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +31,12 @@ Route::middleware('auth:api')->group(function () {
 
     // Routes for superadmin role
     Route::middleware('role:superadmin')->group(function () {
-
         Route::apiResource('companies', CompanyController::class);
-
+        // Routes for invitations
+        Route::prefix('invitations')->group(function () {
+            Route::get('user-invitations', [JoinInvitationController::class, "getUserInvitations"]);
+            Route::put('cancel/{id}', [JoinInvitationController::class, 'cancel'])->name('invitation.cancel');
+        });
         // Routes for users
         Route::prefix('users')->group(function () {
 
@@ -48,8 +50,12 @@ Route::middleware('auth:api')->group(function () {
 
     // Routes for employee role
     Route::middleware('role:employee')->group(function () {
-        Route::get('/employee', function () {
-            return "hello Employee";
+        Route::prefix('users')->group(function () {
+            Route::get('company-employees', [UserController::class, 'getCompanyEmployees'])->name('user.company-employees');
+            Route::post('create-superadmin', [UserController::class, 'createSuperAdmin'])->name('user.create-superadmin');
+            Route::post('invite-employee', [UserController::class, 'inviteEmployee'])->name('user.invite-employee');
+
+
         });
     });
 });

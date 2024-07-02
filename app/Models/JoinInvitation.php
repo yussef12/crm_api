@@ -11,7 +11,9 @@ class JoinInvitation extends Model
 
     protected $fillable = [
         'invited_email',
+        'invited_name',
         'token',
+        'user_id',
         'app_url',
         'status',
     ];

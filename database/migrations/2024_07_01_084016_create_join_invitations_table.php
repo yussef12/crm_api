@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('join_invitations', function (Blueprint $table) {
             $table->id();
-            $table->string('invited_email');
+            $table->string('invited_email')->unique();
+            $table->string('invited_name');
             $table->string('app_url');
             $table->string('token', 20)->unique();
-            $table->enum('status', ['sent', 'validated', 'canceled']);
+            $table->enum('status', ['saved', 'sent', 'cancelled','validated'])->default('saved');
             $table->timestamps();
         });
     }
