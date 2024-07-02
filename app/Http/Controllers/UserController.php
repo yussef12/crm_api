@@ -42,13 +42,63 @@ class UserController extends Controller
         ]);
     }
 
+    public function validateEmployeeCreation(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'password' => 'required|string|min:6',
+            'token' => 'required|string|min:20|max:20',
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 422);
+        }
+
+        $invitation = JoinInvitation::where('token', $request->token)->first();
+
+        if ($invitation) {
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $invitation->invited_email,
+                'password' => Hash::make($request->password),
+                'role_id' => 2,
+                'company_id' => $invitation->company_id,
+            ]);
+
+            $invitation->status = 'validated';
+            $invitation->save();
+
+            return response()->json([
+                'message' => 'User created successfully',
+                'user' => $user
+            ]);
+
+
+        } else {
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => 'no invitation found',
+                ], 422);
+            }
+        }
+
+    }
+
     public function inviteEmployee(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
             'invited_email' => 'required|string|email|max:255|unique:join_invitations',
             'invited_name' => 'required|string',
-            'app_url' => 'required|string'
+            'app_url' => 'required|string',
+            'company_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +110,7 @@ class UserController extends Controller
         $email = $request->input('invited_email');
         $name = $request->input('invited_name');
         $app_url = $request->input('app_url');
+        $company_id = $request->input('company_id');
 
         $domain = substr(strrchr($email, "@"), 1);
 
@@ -76,6 +127,7 @@ class UserController extends Controller
             'invited_name' => $name,
             'token' => $token,
             'user_id' => Auth::user()->id,
+            'company_id' => $company_id,
         ]);
 
 

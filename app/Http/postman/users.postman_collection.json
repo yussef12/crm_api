@@ -40,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"invited_email\":\"drtrss@ackerman.com\",\r\n    \"app_url\":\"https://www.ddddd.com\"\r\n}",
+					"raw": "{\r\n    \"invited_email\": \"mikasa@ackerman.com\",\r\n    \"invited_name\": \"mikasa cristine\",\r\n    \"app_url\": \"https://sss.ddddd.com\",\r\n    \"company_id\":4\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -87,6 +87,50 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "get user company employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/users/company-employees",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"company-employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "validate employee creation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n        \"name\": \"ereen yeager\",\r\n        \"birth_date\": null,\r\n        \"phone_number\": null,\r\n        \"address\": null,\r\n        \"password\":\"sjssj\",\r\n        \"token\":\"20240702170108ackerm\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/validate-employee-creation",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"validate-employee-creation"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -94,7 +138,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "{{token}}",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzE5OTM4NzQ1LCJleHAiOjE3MTk5NDIzNDUsIm5iZiI6MTcxOTkzODc0NSwianRpIjoidG9DbHg5cWNkY01WT2RyaiIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.9w8TszaJCqiPPkXwwFdLQy_TibHiP_2QEudwMfaEl18",
 				"type": "string"
 			}
 		]

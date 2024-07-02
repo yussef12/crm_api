@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "bfbc7ca8-680a-4c71-9e4a-8aed92209116",
+		"name": "invitations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36309490"
+	},
+	"item": [
+		{
+			"name": "get auth user invitation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/invitations/user-invitations",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"invitations",
+						"user-invitations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel invitation",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/invitations/cancel/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"invitations",
+						"cancel",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
