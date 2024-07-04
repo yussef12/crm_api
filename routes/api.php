@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::post('/me', [AuthController::class, 'me'])->name('me');
 
+    Route::put('/update-user', [UserController::class, 'update'])->name('users.update');
+
     // Routes for superadmin role
     Route::middleware('role:superadmin')->group(function () {
         Route::apiResource('companies', CompanyController::class);

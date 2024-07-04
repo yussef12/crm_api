@@ -24,7 +24,7 @@ class CompanyController extends Controller
                 $query->orderByDesc('name');
             }
         }
-
+        $query->withCount('employees');
 
         $companies = $query->get();
 

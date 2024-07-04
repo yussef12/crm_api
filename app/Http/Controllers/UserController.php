@@ -15,6 +15,28 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+
+    public function getEmployees(Request $request)
+    {
+        $name = $request->input('name');
+        $sortDirection = $request->input('sort', 'asc');
+
+        $employees = User::employees($name, $sortDirection)->get();
+
+        return response()->json(['employees' => $employees]);
+    }
+
+    public function getCompanyEmployees(Request $request)
+    {
+        $name = $request->input('name');
+        $company_id = Auth::user()->company_id;
+        $sortDirection = $request->input('sort');
+
+        $employees = User::employees($name, $sortDirection)->where('company_id', $company_id)->get();
+
+        return response()->json(['auth user Company employees' => $employees]);
+    }
+
     public function createSuperAdmin(Request $request)
     {
 
@@ -139,25 +161,33 @@ class UserController extends Controller
         ]);
     }
 
-
-    public function getEmployees(Request $request)
+    public function update(Request $request)
     {
-        $name = $request->input('name');
-        $sortDirection = $request->input('sort', 'asc');
 
-        $employees = User::employees($name, $sortDirection)->get();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:20',
+            'email' => 'required|string|email',
+            'phone_number' => 'nullable|string|max:20',
+            'birth_date' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+        ]);
 
-        return response()->json(['employees' => $employees]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user->update($request->all());
+
+        return response()->json([
+            'message' => 'user updated successfully',
+            'user' => $user
+        ]);
+
     }
 
-    public function getCompanyEmployees(Request $request)
-    {
-        $name = $request->input('name');
-        $company_id = Auth::user()->company_id;
-        $sortDirection = $request->input('sort');
-
-        $employees = User::employees($name, $sortDirection)->where('company_id', $company_id)->get();
-
-        return response()->json(['auth user Company employees' => $employees]);
-    }
 }

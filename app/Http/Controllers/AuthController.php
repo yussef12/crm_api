@@ -21,6 +21,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         $token = Auth::attempt($credentials);
 
+
         if (!$token) {
             return response()->json([
                 'message' => 'Unauthorized',
@@ -30,10 +31,8 @@ class AuthController extends Controller
         $user = Auth::user();
         return response()->json([
             'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
+            'token' => $token,
+            'role' =>$user->role
         ]);
     }
 
