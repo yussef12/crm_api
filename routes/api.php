@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function () {
     // Routes for superadmin role
     Route::middleware('role:superadmin')->group(function () {
         Route::apiResource('companies', CompanyController::class);
+        Route::get('superadmins', [UserController::class,'getSuperAdmins']);
         // Routes for invitations
         Route::prefix('invitations')->group(function () {
             Route::get('user-invitations', [JoinInvitationController::class, "getUserInvitations"]);

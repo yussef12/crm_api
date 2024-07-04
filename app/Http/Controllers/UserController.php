@@ -26,6 +26,16 @@ class UserController extends Controller
         return response()->json(['employees' => $employees]);
     }
 
+    public function getSuperAdmins(Request $request)
+    {
+        $name = $request->input('name');
+        $sortDirection = $request->input('sort');
+
+        $admins = User::superAdmins($name, $sortDirection)->get();
+
+        return response()->json(['admins' => $admins]);
+    }
+
     public function getCompanyEmployees(Request $request)
     {
         $name = $request->input('name');
