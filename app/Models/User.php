@@ -23,6 +23,9 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'role_id',
+        'phone_number',
+        'birth_date',
+        'address',
         'company_id'
     ];
 
@@ -59,6 +62,18 @@ class User extends Authenticatable implements JWTSubject
         return $query;
     }
 
+    public function scopeSuperAdmins($query, $name = null, $sort = null)
+    {
+        $query->where('role_id', 1);
+        if ($sort) {
+            $query->orderBy($sort);
+        }
+        if ($name) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+
+        return $query;
+    }
 
     public function getJWTIdentifier()
     {

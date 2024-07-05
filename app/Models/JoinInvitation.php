@@ -9,6 +9,10 @@ class JoinInvitation extends Model
 {
     use HasFactory;
 
+
+    protected $table = 'join_invitations'; // Adjust if your table name is different
+    protected $primaryKey = 'id'; // Adjust if your primary key column is different
+    public $timestamps = true;
     protected $fillable = [
         'invited_email',
         'invited_name',
@@ -31,5 +35,7 @@ class JoinInvitation extends Model
         return $this->belongsTo(Company::class, 'company_id');
 
     }
+
+
 
 }

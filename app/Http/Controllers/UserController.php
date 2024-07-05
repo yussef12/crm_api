@@ -15,6 +15,38 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+
+    public function getEmployees(Request $request)
+    {
+        $name = $request->input('name');
+        $sortDirection = $request->input('sort');
+
+        $employees = User::employees($name, $sortDirection)->get();
+
+        return response()->json(['employees' => $employees]);
+    }
+
+    public function getSuperAdmins(Request $request)
+    {
+        $name = $request->input('name');
+        $sortDirection = $request->input('sort');
+
+        $admins = User::superAdmins($name, $sortDirection)->get();
+
+        return response()->json(['admins' => $admins]);
+    }
+
+    public function getCompanyEmployees(Request $request)
+    {
+        $name = $request->input('name');
+        $company_id = Auth::user()->company_id;
+        $sortDirection = $request->input('sort');
+
+        $employees = User::employees($name, $sortDirection)->where('company_id', $company_id)->get();
+
+        return response()->json(['auth user Company employees' => $employees]);
+    }
+
     public function createSuperAdmin(Request $request)
     {
 
@@ -49,8 +81,9 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
+            'birth_date' => 'nullable|date',
             'password' => 'required|string|min:6',
-            'token' => 'required|string|min:20|max:20',
+            'token' => 'required|string',
         ]);
 
 
@@ -112,14 +145,17 @@ class UserController extends Controller
         $app_url = $request->input('app_url');
         $company_id = $request->input('company_id');
 
-        $domain = substr(strrchr($email, "@"), 1);
+        $local_part = strstr($email, '@', true);
+
 
 // Generate the token
         $now = Carbon::now()->format('YmdHis'); // 14 characters
-        $domainPart = substr($domain, 0, 6); // Take up to 6 characters from the domain
+        $local_part = substr($local_part, 0, 6); // Take up to 6 characters from the domain
 
-// Ensure exactly 20 characters by adjusting parts
-        $token = substr($now . $domainPart, 0, 20);
+        $combined = $now . $local_part;
+
+        $shuffled = str_shuffle($combined);
+        $token = substr($shuffled, 0, 20);
 
         $joinInvitation = JoinInvitation::create([
             'invited_email' => $email,
@@ -139,25 +175,33 @@ class UserController extends Controller
         ]);
     }
 
-
-    public function getEmployees(Request $request)
+    public function update(Request $request)
     {
-        $name = $request->input('name');
-        $sortDirection = $request->input('sort', 'asc');
 
-        $employees = User::employees($name, $sortDirection)->get();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:20',
+            'email' => 'required|string|email',
+            'phone_number' => 'nullable|string|max:20',
+            'birth_date' => 'nullable|date',
+            'address' => 'nullable|string|max:255',
+        ]);
 
-        return response()->json(['employees' => $employees]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user->update($request->all());
+
+        return response()->json([
+            'message' => 'user updated successfully',
+            'user' => $user
+        ]);
+
     }
 
-    public function getCompanyEmployees(Request $request)
-    {
-        $name = $request->input('name');
-        $company_id = Auth::user()->company_id;
-        $sortDirection = $request->input('sort');
-
-        $employees = User::employees($name, $sortDirection)->where('company_id', $company_id)->get();
-
-        return response()->json(['auth user Company employees' => $employees]);
-    }
 }

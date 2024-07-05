@@ -21,7 +21,9 @@ use App\Http\Controllers\JoinInvitationController;
 // Public routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/validate-employee-creation', [UserController::class, 'validateEmployeeCreation'])->name('user.validate-employee-creation');
+
+Route::post('/validate-employee-creation', [UserController::class, 'validateEmployeeCreation']);
+Route::post('/is-invitation-link-valid', [JoinInvitationController::class, 'isInvitationLinkValid']);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -30,9 +32,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::post('/me', [AuthController::class, 'me'])->name('me');
 
+    Route::put('/update-user', [UserController::class, 'update'])->name('users.update');
+
     // Routes for superadmin role
     Route::middleware('role:superadmin')->group(function () {
         Route::apiResource('companies', CompanyController::class);
+        Route::get('superadmins', [UserController::class, 'getSuperAdmins']);
+        Route::get('employees', [UserController::class, 'getEmployees'])->name('user.get-employees');
+
         // Routes for invitations
         Route::prefix('invitations')->group(function () {
             Route::get('user-invitations', [JoinInvitationController::class, "getUserInvitations"]);
@@ -40,8 +47,6 @@ Route::middleware('auth:api')->group(function () {
         });
         // Routes for users
         Route::prefix('users')->group(function () {
-
-            Route::get('employees', [UserController::class, 'getEmployees'])->name('user.get-employees');
             Route::post('create-superadmin', [UserController::class, 'createSuperAdmin'])->name('user.create-superadmin');
             Route::post('invite-employee', [UserController::class, 'inviteEmployee'])->name('user.invite-employee');
 
