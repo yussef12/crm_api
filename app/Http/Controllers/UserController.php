@@ -45,7 +45,7 @@ class UserController extends Controller
 
         $employees = User::employees($name, $sortDirection)->where('company_id', $company_id)->get();
 
-        return response()->json(['auth user Company employees' => $employees]);
+        return response()->json(['employees' => $employees]);
     }
 
     public function createSuperAdmin(Request $request)
