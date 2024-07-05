@@ -21,7 +21,9 @@ use App\Http\Controllers\JoinInvitationController;
 // Public routes
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/validate-employee-creation', [UserController::class, 'validateEmployeeCreation'])->name('user.validate-employee-creation');
+
+Route::post('/validate-employee-creation', [UserController::class, 'validateEmployeeCreation']);
+Route::post('/is-invitation-link-valid', [JoinInvitationController::class, 'isInvitationLinkValid']);
 
 Route::middleware('auth:api')->group(function () {
 
