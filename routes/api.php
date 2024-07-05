@@ -60,4 +60,9 @@ Route::middleware('auth:api')->group(function () {
             Route::get('company-employees', [UserController::class, 'getCompanyEmployees'])->name('user.company-employees');
         });
     });
+
+    Route::middleware('role:administrator')->group(function () {
+        Route::get('logs', [UserController::class, 'getLogs'])->name('user.logs');
+
+    });
 });

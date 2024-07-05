@@ -30,17 +30,23 @@ class SendJoinInvitationEmail
         $register_link = $invitation->app_url . '/' . $invitation->token;
 
         try {
+
             Mail::to($invitation->invited_email)->send(new InvitationEmail($register_link, $name));
             $ivt = JoinInvitation::findOrFail($invitation->id);
             $ivt->status = 'sent';
             $ivt->save();
 
-            EventLog::create([
-                'name'=>'invitation validated',
-                'triggered_by_name'=>Auth::user()->name,
-                'triggered_by_id'=>Auth::user()->id,
-                'triggered_by_role'=>Auth::user()->role->name,
-            ]);
+            if ($ivt) {
+                $user = Auth::user();
+                EventLog::create([
+                    'event_name' => 'invitation sent',
+                    'triggered_by_name' => $user->name,
+                    'triggered_by_id' => $user->id,
+                    'triggered_by_role' =>$user->role->name,
+                    'invited_employee_name' => $invitation->invited_name,
+                ]);
+            }
+
 
         } catch (\Exception $e) {
             Log::error('Error sending invitation: ' . $e->getMessage());
