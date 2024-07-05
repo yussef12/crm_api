@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EventLog;
 use App\Models\JoinInvitation;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -37,6 +38,16 @@ class JoinInvitationController extends Controller
         if ($invitation->user_id == Auth::user()->id && $invitation->status != "validated") {
             $invitation->status = 'cancelled';
             $invitation->save();
+
+            if ($invitation) {
+                EventLog::create([
+                    'name' => 'invitation cancelled',
+                    'triggered_by_name' => Auth::user()->name,
+                    'triggered_by_id' => Auth::user()->id,
+                    'triggered_by_role' => Auth::user()->role->name,
+                    'invited_employee_name' => $invitation->invited_name,
+                ]);
+            }
             return response()->json(['message' => 'invitation cancelled successfully.']);
         }
 
@@ -45,7 +56,7 @@ class JoinInvitationController extends Controller
 
     public function isInvitationLinkValid(Request $request)
     {
-        $invitation = JoinInvitation::where('token',$request->token)->first();
+        $invitation = JoinInvitation::where('token', $request->token)->first();
 
         if ($invitation) {
             if ($invitation->status == "sent") {

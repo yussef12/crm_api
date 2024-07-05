@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\InvitationCreated;
 use App\Events\JoinInvitationCreated;
+use App\Models\EventLog;
 use App\Models\JoinInvitation;
 use App\Models\User;
 use Carbon\Carbon;
@@ -96,7 +97,6 @@ class UserController extends Controller
         $invitation = JoinInvitation::where('token', $request->token)->first();
 
         if ($invitation) {
-
             $user = User::create([
                 'name' => $request->name,
                 'email' => $invitation->invited_email,
@@ -104,12 +104,37 @@ class UserController extends Controller
                 'role_id' => 2,
                 'company_id' => $invitation->company_id,
             ]);
+            if ($invitation) {
+                EventLog::create([
+                    'name' => 'employee confirmed',
+                    'triggered_by_name' => $invitation->invited_name,
+                    'triggered_by_role' => 'employee',
+
+                ]);
+            }
 
             $invitation->status = 'validated';
             $invitation->save();
 
+            if ($invitation && $user) {
+                EventLog::create([
+                    'name' => 'employee confirmed',
+                    'triggered_by_name' => $invitation->invited_name,
+                    'invited_employee_name' => $invitation->invited_name,
+                    'triggered_by_role' => 'employee',
+
+                ]);
+                EventLog::create([
+                    'name' => 'invitation validated',
+                    'triggered_by_name' => $invitation->invited_name,
+                    'invited_employee_name' => $invitation->invited_name,
+                    'triggered_by_role' => 'employee',
+
+                ]);
+            }
+
             return response()->json([
-                'message' => 'User created successfully',
+                'message' => 'employee validated successfully',
                 'user' => $user
             ]);
 
