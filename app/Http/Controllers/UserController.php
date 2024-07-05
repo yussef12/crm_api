@@ -81,8 +81,9 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
+            'birth_date' => 'nullable|date',
             'password' => 'required|string|min:6',
-            'token' => 'required|string|min:20|max:20',
+            'token' => 'required|string',
         ]);
 
 
@@ -144,14 +145,17 @@ class UserController extends Controller
         $app_url = $request->input('app_url');
         $company_id = $request->input('company_id');
 
-        $domain = substr(strrchr($email, "@"), 1);
+        $local_part = strstr($email, '@', true);
+
 
 // Generate the token
         $now = Carbon::now()->format('YmdHis'); // 14 characters
-        $domainPart = substr($domain, 0, 6); // Take up to 6 characters from the domain
+        $local_part = substr($local_part, 0, 6); // Take up to 6 characters from the domain
 
-// Ensure exactly 20 characters by adjusting parts
-        $token = substr($now . $domainPart, 0, 20);
+        $combined = $now . $local_part;
+
+        $shuffled = str_shuffle($combined);
+        $token = substr($shuffled, 0, 20);
 
         $joinInvitation = JoinInvitation::create([
             'invited_email' => $email,

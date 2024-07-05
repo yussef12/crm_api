@@ -45,7 +45,7 @@ class JoinInvitationController extends Controller
 
     public function isInvitationLinkValid(Request $request)
     {
-        $invitation = JoinInvitation::where('status',$request->token)->first();
+        $invitation = JoinInvitation::where('token',$request->token)->first();
 
         if ($invitation) {
             if ($invitation->status == "sent") {
