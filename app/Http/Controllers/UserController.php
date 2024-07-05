@@ -97,6 +97,13 @@ class UserController extends Controller
         $invitation = JoinInvitation::where('token', $request->token)->first();
 
         if ($invitation) {
+            EventLog::create([
+                'event_name' => 'invitation validated',
+                'triggered_by_name' => $invitation->invited_name,
+                'triggered_by_role' => 'employee',
+                'invited_employee_name' => $invitation->invited_name,
+
+            ]);
             $user = User::create([
                 'name' => $request->name,
                 'email' => $invitation->invited_email,
@@ -104,34 +111,17 @@ class UserController extends Controller
                 'role_id' => 2,
                 'company_id' => $invitation->company_id,
             ]);
-            if ($invitation) {
+            if ($user) {
                 EventLog::create([
-                    'name' => 'employee confirmed',
+                    'event_name' => 'employee confirmed',
                     'triggered_by_name' => $invitation->invited_name,
                     'triggered_by_role' => 'employee',
-
+                    'invited_employee_name' => $invitation->invited_name,
                 ]);
+                $invitation->status = 'validated';
             }
 
-            $invitation->status = 'validated';
             $invitation->save();
-
-            if ($invitation && $user) {
-                EventLog::create([
-                    'name' => 'employee confirmed',
-                    'triggered_by_name' => $invitation->invited_name,
-                    'invited_employee_name' => $invitation->invited_name,
-                    'triggered_by_role' => 'employee',
-
-                ]);
-                EventLog::create([
-                    'name' => 'invitation validated',
-                    'triggered_by_name' => $invitation->invited_name,
-                    'invited_employee_name' => $invitation->invited_name,
-                    'triggered_by_role' => 'employee',
-
-                ]);
-            }
 
             return response()->json([
                 'message' => 'employee validated successfully',

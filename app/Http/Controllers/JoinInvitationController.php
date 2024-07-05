@@ -40,11 +40,12 @@ class JoinInvitationController extends Controller
             $invitation->save();
 
             if ($invitation) {
+                $user = Auth::user();
                 EventLog::create([
-                    'name' => 'invitation cancelled',
-                    'triggered_by_name' => Auth::user()->name,
-                    'triggered_by_id' => Auth::user()->id,
-                    'triggered_by_role' => Auth::user()->role->name,
+                    'event_name' => 'invitation cancelled',
+                    'triggered_by_name' => $user->name,
+                    'triggered_by_id' => $user->id,
+                    'triggered_by_role' =>$user->role->name,
                     'invited_employee_name' => $invitation->invited_name,
                 ]);
             }

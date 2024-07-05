@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->enum('event_name', ['invitation sent', 'invitation cancelled', 'invitation validated', 'employee confirmed']);
             $table->string('triggered_by_name');
             $table->foreignId('triggered_by_id')->nullable()->constrained('users');
-            $table->foreignId('invited_employee_name');
+            $table->string('invited_employee_name');
             $table->string('triggered_by_role');
             $table->timestamps();
         });
