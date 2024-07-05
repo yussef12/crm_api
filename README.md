@@ -33,4 +33,4 @@ These prerequisites are essential for setting up and running your Laravel projec
 7. seed Data:
    execute the command : `docker-compose exec php artisan db:seed`
 
-7. To set up the JWT secret key required for authentication, run the following command from your project's root directory `docker-compose exec app php artisan jwt:secret`
+8 .To set up the JWT secret key required for authentication, run the following command from your project's root directory `docker-compose exec app php artisan jwt:secret`
