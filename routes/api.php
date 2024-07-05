@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JoinInvitationController;
+use App\Http\Controllers\EventLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +63,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::middleware('role:administrator')->group(function () {
-        Route::get('logs', [UserController::class, 'getLogs'])->name('user.logs');
+        Route::get('logs', [EventLogController::class, 'index'])->name('user.logs');
 
     });
 });
