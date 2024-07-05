@@ -62,7 +62,7 @@ class User extends Authenticatable implements JWTSubject
         return $query;
     }
 
-    public function scopeSuperAdmins($query, $name = null, $sort = null, $company_id = null)
+    public function scopeSuperAdmins($query, $name = null, $sort = null)
     {
         $query->where('role_id', 1);
         if ($sort) {
@@ -72,7 +72,6 @@ class User extends Authenticatable implements JWTSubject
             $query->where('name', 'like', '%' . $name . '%');
         }
 
-        return $query;
         return $query;
     }
 

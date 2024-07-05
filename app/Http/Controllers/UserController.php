@@ -19,7 +19,7 @@ class UserController extends Controller
     public function getEmployees(Request $request)
     {
         $name = $request->input('name');
-        $sortDirection = $request->input('sort', 'asc');
+        $sortDirection = $request->input('sort');
 
         $employees = User::employees($name, $sortDirection)->get();
 
