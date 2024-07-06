@@ -15,22 +15,27 @@ These prerequisites are essential for setting up and running your Laravel projec
 ## Installation
 
 
-1. start Docker Desktop:
+  1. start Docker Desktop:
    Ensure Docker Desktop is running on your system.
 
-2. Clone the repository: git clone https://github.com/yussef12/crm_api.git
+  2. Clone the repository: git clone https://github.com/yussef12/crm_api.git
    `cd crm_api`
 
-3. Copy `.env.example to ` `.env` and configure your environment variables.
-4. run `docker-compose up -d`
+  3. Copy `.env.example to ` `.env` and configure your environment variables.
+  4. run `docker compose up --build`
+  5. Generate key:
+   execute the command : `docker-compose exec app php artisan key:generate`
 
-5. Generate key:
-   execute the command : ` docker-compose exec php artisan key:generate`
+  6. Migrate tables:
+   execute the command : `docker-compose exec  app  php artisan migrate`
 
-6. Migrate tables:
-   execute the command : `docker-compose exec php artisan migrate`
+  7. seed Data:
+   execute the command : `docker-compose exec app php artisan db:seed`
 
-7. seed Data:
-   execute the command : `docker-compose exec php artisan db:seed`
+  8. To set up the JWT secret key required for authentication, run the following command from your project's root directory `docker-compose exec app php artisan jwt:secret`
 
-8 .To set up the JWT secret key required for authentication, run the following command from your project's root directory `docker-compose exec app php artisan jwt:secret`
+After executing  those commands please  run 
+
+  `docker-compose exec app php artisan optimize` to make sure that the cache is cleared.
+
+Now you can go to http://localhost:8000/ to check if your server is running. Please note that it may take some time for the server to fully start.
