@@ -39,3 +39,34 @@ After executing  those commands please  run
   `docker-compose exec app php artisan optimize` to make sure that the cache is cleared.
 
 Now you can go to http://localhost:8000/ to check if your server is running. Please note that it may take some time for the server to fully start.
+
+
+
+## Authentication
+
+Before proceeding, please note that user roles and credentials have been pre-seeded into the database during setup. Below are the authentication details for each role:
+
+1. Superadmin: To authenticate as a superadmin, use the following credentials:
+ 
+   Email: superadmin@tingis.com 
+
+   Password: password
+
+
+Note: This role has administrative privileges across the system.
+
+2 .employee: To authenticate as an employee, use those credentials
+
+   Email: employee@tingis.com 
+
+   Password: password
+
+
+3. administrator: to access to administrator space use those credentials :
+
+   Email: administrator@tingis.com 
+
+   Password: password
+
+Note: please those credentials will not work if the database seeding process failed   
+
